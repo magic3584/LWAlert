@@ -24,11 +24,12 @@ class ViewController: UIViewController {
         } else {
             alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .alert)
             
-            alert.addButton(LWAlertButton.init(title: "Cancel", handler: { ( _ ) in
-                alert.dismiss()
-            }))
-            alert.addButton(LWAlertButton.init(title: "Confirm", handler: { ( _ ) in
-                alert.dismiss()
+            alert.addButton(LWAlertButton.init(title: "Cancel", handler: nil))
+            alert.addButton(LWAlertButton.init(title: "Confirm", handler: { ( button ) in
+                print("confirm")
+                
+                //Don't use alert or it will cause a retain cycle
+                //print(alert.buttons.count)
             }))
         }
         

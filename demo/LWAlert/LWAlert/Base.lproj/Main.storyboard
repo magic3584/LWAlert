@@ -40,17 +40,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wia-H1-y1i">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wia-H1-y1i">
                                 <rect key="frame" x="172" y="195" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="hud"/>
                                 <connections>
                                     <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="TC8-5j-yhN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cAe-Dd-RkU">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cAe-Dd-RkU">
                                 <rect key="frame" x="171" y="267" width="32" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="alert"/>
                                 <connections>
                                     <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="qJe-4u-P3t"/>
@@ -58,6 +56,12 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Wia-H1-y1i" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="0pw-np-2wr"/>
+                            <constraint firstItem="cAe-Dd-RkU" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="AOj-KG-Rlc"/>
+                            <constraint firstItem="cAe-Dd-RkU" firstAttribute="top" secondItem="Wia-H1-y1i" secondAttribute="bottom" constant="42" id="KZ6-8n-YJq"/>
+                            <constraint firstItem="Wia-H1-y1i" firstAttribute="top" secondItem="ORv-LB-LTw" secondAttribute="bottom" constant="131" id="UNZ-JC-4d6"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" id="fTi-dk-Blk"/>
                 </viewController>

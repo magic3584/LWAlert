@@ -17,6 +17,7 @@ public enum LWAlertStyle {
 open class LWAlertButton: UIView {
     var button: UIButton!
     var handler: ((LWAlertButton) -> ())?
+    weak var alert:LWAlert!
     
     public init(title: String?, handler:((LWAlertButton) -> ())? = nil) {
         super.init(frame: .zero)
@@ -42,9 +43,8 @@ open class LWAlertButton: UIView {
     }
     
     @objc private func buttonAction() {
-        if handler != nil {
-            handler!(self)
-        }
+        alert.dismiss()
+        handler?(self)
     }
 }
 
@@ -57,11 +57,17 @@ open class LWAlert: UIView {
     var buttons = [LWAlertButton]()
     
     //space between labels
-    let space:CGFloat = 10
+    let space:CGFloat = 20
     //label margin
     let margin: CGFloat = 6
     
     var showDuration: TimeInterval = 2.0
+    
+    var lineColor = UIColor.init(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1)
+    
+    deinit {
+        print("deinit")
+    }
     
     public init(title: String?, message: String?, style: LWAlertStyle) {
         super.init(frame: UIScreen.main.bounds)
@@ -69,7 +75,7 @@ open class LWAlert: UIView {
         self.style = style
         
         bgView = UIView.init(frame: UIScreen.main.bounds)
-        bgView.backgroundColor = UIColor.init(white: 0.3, alpha: 1)
+//        bgView.backgroundColor = UIColor.init(white: 0.3, alpha: 1)
         addSubview(bgView)
         
         realView = UIView.init(frame: CGRect(x: 0, y: 0, width: bgView.bounds.size.width * 0.8, height: 200))
@@ -119,6 +125,7 @@ open class LWAlert: UIView {
     
     public func addButton(_ button: LWAlertButton) {
         buttons.append(button)
+        button.alert = self
     }
     
     public func show() {
@@ -127,7 +134,7 @@ open class LWAlert: UIView {
         switch style{
         case .hud:
             UIView.animate(withDuration: 0.3, animations: {
-                self.bgView.backgroundColor = UIColor.init(white: 0.3, alpha: 1)
+                self.bgView.backgroundColor = UIColor.init(red: 10/255.0, green: 2/255.0, blue: 4/255.0, alpha: 0.4)
             }, completion: { (_) in
                 DispatchQueue.main.asyncAfter(deadline: .now() + self.showDuration, execute: {
                     self.removeFromSuperview()
@@ -137,6 +144,8 @@ open class LWAlert: UIView {
         case .alert:
             guard buttons.count > 0 else { return }
             
+            bgView.backgroundColor = UIColor.init(red: 10/255.0, green: 2/255.0, blue: 4/255.0, alpha: 0.4)
+
             let buttonHeight: CGFloat = 37.5
             let buttonWidth = realView.frame.size.width / CGFloat(buttons.count)
             
@@ -145,7 +154,19 @@ open class LWAlert: UIView {
             for (index, button) in buttons.enumerated() {
                 button.updateFrame(frame: CGRect(x: buttonWidth * CGFloat(index), y: 0, width: buttonWidth, height: buttonHeight))
                 buttonView.addSubview(button)
+                
+                //line between buttons
+                if index != 0 {
+                    let line = UIView.init(frame: CGRect(x: button.frame.origin.x, y: 0, width: 1, height: buttonHeight))
+                    line.backgroundColor = lineColor
+                    buttonView.addSubview(line)
+                }
             }
+            
+            //top line
+            let line = UIView.init(frame: CGRect(x: 0, y: 0, width: buttonView.frame.size.width, height: 1))
+            line.backgroundColor = lineColor
+            buttonView.addSubview(line)
             
             realView.addSubview(buttonView)
         
@@ -157,7 +178,7 @@ open class LWAlert: UIView {
         }
     }
     
-    public func dismiss() {
+    fileprivate func dismiss() {
         self.removeFromSuperview()
     }
 }
