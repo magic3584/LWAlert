@@ -28,9 +28,9 @@
         
         var alert: LWAlert
         
-        if sender.tag == 0 {
+        if sender.tag == 0 {//hud
             alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
-        } else {
+        } else if sender.tag == 1 {//alert
             alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .alert)
             
             alert.addButton(LWAlertButton.init(title: "Cancel", handler: nil))
@@ -40,11 +40,22 @@
                 //Don't use alert or it will cause a retain cycle
                 //print(alert.buttons.count)
             }))
+        } else if sender.tag == 2 {//datePicker
+            alert = LWAlert.init(style: .datePicker)
+            alert.dateInfoBlock = { info in
+                print(info.date)
+                print(info.time)
+            }
+        } else {
+            alert = LWAlert.init(style: .timePicker)
+            alert.dateInfoBlock = { info in
+                print(info.date)
+                print(info.time)
+            }
         }
         
         alert .show()
     }
-
 ```
 
 # License

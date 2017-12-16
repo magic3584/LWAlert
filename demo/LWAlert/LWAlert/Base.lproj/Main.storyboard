@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Dzk-HP-zDp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Dzk-HP-zDp">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -54,13 +54,31 @@
                                     <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="qJe-4u-P3t"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAL-Dk-tk4">
+                                <rect key="frame" x="151" y="328" width="73" height="30"/>
+                                <state key="normal" title="datePicker"/>
+                                <connections>
+                                    <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="fcU-kG-VJd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFU-EZ-qOU">
+                                <rect key="frame" x="151" y="388" width="73" height="30"/>
+                                <state key="normal" title="timePicker"/>
+                                <connections>
+                                    <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="vdK-Qc-UUX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Wia-H1-y1i" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="0pw-np-2wr"/>
+                            <constraint firstItem="yAL-Dk-tk4" firstAttribute="centerX" secondItem="cAe-Dd-RkU" secondAttribute="centerX" id="2d2-Ew-ZVg"/>
                             <constraint firstItem="cAe-Dd-RkU" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="AOj-KG-Rlc"/>
                             <constraint firstItem="cAe-Dd-RkU" firstAttribute="top" secondItem="Wia-H1-y1i" secondAttribute="bottom" constant="42" id="KZ6-8n-YJq"/>
                             <constraint firstItem="Wia-H1-y1i" firstAttribute="top" secondItem="ORv-LB-LTw" secondAttribute="bottom" constant="131" id="UNZ-JC-4d6"/>
+                            <constraint firstItem="yAL-Dk-tk4" firstAttribute="top" secondItem="cAe-Dd-RkU" secondAttribute="bottom" constant="31" id="a0l-sz-b9J"/>
+                            <constraint firstItem="mFU-EZ-qOU" firstAttribute="top" secondItem="yAL-Dk-tk4" secondAttribute="bottom" constant="30" id="rdU-6H-yth"/>
+                            <constraint firstItem="yAL-Dk-tk4" firstAttribute="leading" secondItem="mFU-EZ-qOU" secondAttribute="leading" id="uPv-lk-9xB"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" id="fTi-dk-Blk"/>
