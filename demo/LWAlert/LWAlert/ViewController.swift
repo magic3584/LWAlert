@@ -20,7 +20,10 @@ class ViewController: UIViewController {
         var alert: LWAlert
         
         if sender.tag == 0 {//hud
-            alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
+//            alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
+            LWAlert.showHUD(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message")
+            return
+            
         } else if sender.tag == 1{
             alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .alert)
             

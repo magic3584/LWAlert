@@ -5,6 +5,7 @@
 # Features
 * hud
 * alert
+* picker
 
 # Requirements
 * Xcode 9.0+
@@ -29,7 +30,9 @@
         var alert: LWAlert
         
         if sender.tag == 0 {//hud
-            alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
+            //            alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
+            LWAlert.showHUD(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message")
+            return        
         } else if sender.tag == 1 {//alert
             alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .alert)
             
@@ -57,6 +60,9 @@
         alert .show()
     }
 ```
+
+# TODO
+Custom components and rows
 
 # License
 LWAlert is provided under the MIT license. See LICENSE file for details.

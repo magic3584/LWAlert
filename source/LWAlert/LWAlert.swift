@@ -14,6 +14,7 @@ public enum LWAlertStyle {
     case alert
     case datePicker
     case timePicker
+    case system
 }
 
 public typealias LWDateInfo = (date: String?, time: String?)
@@ -248,6 +249,11 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public class func showHUD(title: String?, message: String?) {
+        let alert = LWAlert.init(title: title, message: message, style: .hud)
+        alert.show()
     }
     
     public func addButton(_ button: LWAlertButton) {
