@@ -114,8 +114,8 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         return array
     }
     
-    var dateInfo: LWDateInfo?
-    var dateInfoBlock: ((LWDateInfo) ->())?
+    public var dateInfo: LWDateInfo?
+    public var dateInfoBlock: ((LWDateInfo) ->())?
     
     let lineColor = UIColor.rgbColor(r: 204, g: 204, b: 204)
     let bgColor = UIColor.rgbColor(r: 10, g: 2, b: 4, a: 0.4)
