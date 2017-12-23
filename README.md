@@ -6,6 +6,7 @@
 * hud
 * alert
 * picker
+* custom components
 
 # Requirements
 * Xcode 9.0+
@@ -30,10 +31,11 @@
         var alert: LWAlert
         
         if sender.tag == 0 {//hud
-            //            alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
+//            alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
             LWAlert.showHUD(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message")
-            return        
-        } else if sender.tag == 1 {//alert
+            return
+            
+        } else if sender.tag == 1{
             alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .alert)
             
             alert.addButton(LWAlertButton.init(title: "Cancel", handler: nil))
@@ -47,22 +49,39 @@
             alert = LWAlert.init(style: .datePicker)
             alert.dateInfoBlock = { info in
                 print(info.date)
-                print(info.time)
             }
-        } else {
+        } else if sender.tag == 3 {//timePicker
             alert = LWAlert.init(style: .timePicker)
             alert.dateInfoBlock = { info in
-                print(info.date)
                 print(info.time)
+            }
+        }else if sender.tag == 4 {//systemDatePicker
+            alert = LWAlert.init(style: .systemDatePicker)
+            alert.dateInfoBlock = { info in
+                print(info.date)
+            }
+        }else if sender.tag == 5{//everyThirtyIn24Hours
+            alert = LWAlert.init(style: .everyThirtyIn24Hours)
+            alert.dateInfoBlock = { info in
+                print(info.time)
+            }
+        }else if sender.tag == 6{//custom Picker with 1 component
+            alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"]])
+            alert.customPickerBlock = { str in
+                print(str)
+            }
+        }else{////custom Picker with 2 components
+            alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"], ["O", "T", "F"]])
+            alert.customPickerBlock = { str in
+                print(str)
             }
         }
         
-        alert .show()
+        alert.show()
     }
 ```
 
-# TODO
-Custom components and rows
+
 
 # License
 LWAlert is provided under the MIT license. See LICENSE file for details.

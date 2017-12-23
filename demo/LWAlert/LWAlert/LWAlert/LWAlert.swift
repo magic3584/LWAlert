@@ -14,7 +14,9 @@ public enum LWAlertStyle {
     case alert
     case datePicker
     case timePicker
-    case system
+    case systemDatePicker
+    case everyThirtyIn24Hours//0:00 0:30 1:00 1:30
+    case customPicker
 }
 
 public typealias LWDateInfo = (date: String?, time: String?)
@@ -23,6 +25,11 @@ class LWDateFormatter {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
         return formatter
     }()
     class func is12HoursFormat() -> Bool {
@@ -86,6 +93,9 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     var pickerBgView: UIView?
     var pickerView: UIPickerView?
+    var picker: UIDatePicker?
+    
+    var customData: [[String]]?
     
     //space between labels
     let space:CGFloat = 20
@@ -117,6 +127,10 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     public var dateInfo: LWDateInfo?
     public var dateInfoBlock: ((LWDateInfo) ->())?
+    
+    ///joined by "-"
+    public var customPickerString: String?
+    public var customPickerBlock: ((String) ->())?
     
     let lineColor = UIColor.rgbColor(r: 204, g: 204, b: 204)
     let bgColor = UIColor.rgbColor(r: 10, g: 2, b: 4, a: 0.4)
@@ -211,38 +225,113 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         buttonView.addSubview(confirmButton)
         buttonView.addLine(at: .bottom)
         
-        pickerView = UIPickerView.init(frame: CGRect(x: 0, y: buttonHeight, width: viewWidth, height: pickerHeight))
-        pickerView?.dataSource = self
-        pickerView?.delegate = self
-        
         let components = Calendar.current.dateComponents([.day, .hour, .minute], from: Date())
         dateInfo = Date().dateInfo()
-
         
         switch style {
-        case .datePicker:
-            pickerView?.selectRow(Calendar.current.dateComponents([.day], from: LWAlert.startDate, to: Date()).day!, inComponent: 0, animated: false)
-        case .timePicker:
-            
-            let amOrPm = components.hour! / 12
-            
-            pickerView?.selectRow(amOrPm, inComponent: 0, animated: false)
-            if components.hour! % 12 == 0 {
-                pickerView?.selectRow(11, inComponent: 1, animated: false)
-            } else {
-                pickerView?.selectRow((components.hour! % 12 - 1), inComponent: 1, animated: false)
+        case .systemDatePicker, .everyThirtyIn24Hours:
+            picker = UIDatePicker.init(frame: CGRect(x: 0, y: buttonHeight, width: viewWidth, height: pickerHeight))
+            switch style {
+            case .systemDatePicker:
+                picker?.datePickerMode = .date
+                dateInfo = Date().systemDateInfo()
+
+            case .everyThirtyIn24Hours:
+                picker?.datePickerMode = .time
+                picker?.minuteInterval = 30
+                dateInfo = Date().everyThirtyIn24HoursDateInfo()
+                
+            default:
+                break
             }
-            pickerView?.selectRow(components.minute!, inComponent: 2, animated: false)
+            
+            picker?.addTarget(self, action: #selector(LWAlert.systemPickerValueChanged), for: .valueChanged)
+            pickerBgView?.addSubview(picker!)
+            
+        case .datePicker, .timePicker:
+            
+            pickerView = UIPickerView.init(frame: CGRect(x: 0, y: buttonHeight, width: viewWidth, height: pickerHeight))
+            pickerView?.dataSource = self
+            pickerView?.delegate = self
+            
+            switch style {
+            case .datePicker:
+                pickerView?.selectRow(Calendar.current.dateComponents([.day], from: LWAlert.startDate, to: Date()).day!, inComponent: 0, animated: false)
+            case .timePicker:
+                
+                let amOrPm = components.hour! / 12
+                
+                pickerView?.selectRow(amOrPm, inComponent: 0, animated: false)
+                if components.hour! % 12 == 0 {
+                    pickerView?.selectRow(11, inComponent: 1, animated: false)
+                } else {
+                    pickerView?.selectRow((components.hour! % 12 - 1), inComponent: 1, animated: false)
+                }
+                pickerView?.selectRow(components.minute!, inComponent: 2, animated: false)
+                
+            default:
+                break
+            }
+            
+            pickerBgView?.addSubview(pickerView!)
             
         default:
             break
         }
         
-        
-
         pickerBgView?.addSubview(buttonView)
-        pickerBgView?.addSubview(pickerView!)
 
+        addSubview(bgView)
+        addSubview(pickerBgView!)
+    }
+    
+    
+    public init(customData: [[String]]) {
+        super.init(frame: UIScreen.main.bounds)
+        
+        self.style = .customPicker
+        self.customData = customData
+        
+        
+        bgView = UIView.init(frame: UIScreen.main.bounds)
+        
+        let buttonWidth: CGFloat = 100
+        
+        pickerBgView = UIView.init(frame: CGRect(x: 0, y: viewHeight, width: viewWidth, height: buttonHeight + pickerHeight))
+        pickerBgView?.backgroundColor = UIColor.white
+        
+        let buttonView = UIView.init(frame: CGRect(x: 0, y: 0, width: viewWidth, height: buttonHeight))
+        let cancelButton = UIButton.init(type: .custom)
+        cancelButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
+        cancelButton.setTitle("取消", for: .normal)
+        cancelButton.setTitleColor(UIColor.lightGray, for: .normal)
+        cancelButton.addTarget(self, action: #selector(LWAlert.pickerButtonAction(button:)), for: .touchUpInside)
+        buttonView.addSubview(cancelButton)
+        
+        let confirmButton = UIButton.init(type: .custom)
+        confirmButton.frame = CGRect(x: viewWidth - buttonWidth, y: 0, width: buttonWidth, height: buttonHeight)
+        confirmButton.setTitle("确定", for: .normal)
+        confirmButton.setTitleColor(UIColor.green, for: .normal)
+        confirmButton.addTarget(self, action: #selector(LWAlert.pickerButtonAction(button:)), for: .touchUpInside)
+        buttonView.addSubview(confirmButton)
+        buttonView.addLine(at: .bottom)
+        
+        pickerView = UIPickerView.init(frame: CGRect(x: 0, y: buttonHeight, width: viewWidth, height: pickerHeight))
+        pickerView?.dataSource = self
+        pickerView?.delegate = self
+        
+        pickerView?.selectRow(0, inComponent: 0, animated: false)
+        
+        
+        var stringArray = [String]()
+        for strings in customData {
+            stringArray.append(strings[0])
+        }
+        customPickerString = stringArray.joined(separator: "-")
+        
+        pickerBgView?.addSubview(pickerView!)
+        pickerBgView?.addSubview(buttonView)
+        
         addSubview(bgView)
         addSubview(pickerBgView!)
     }
@@ -310,7 +399,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
             realView.frame.size.height += buttonHeight
             realView.center = center
         
-        case .datePicker, .timePicker:
+        case .datePicker, .timePicker, .systemDatePicker, .everyThirtyIn24Hours, .customPicker:
             var frame = pickerBgView!.frame
             frame.origin.y = self.viewHeight - self.buttonHeight - self.pickerHeight
 
@@ -319,8 +408,18 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
                 self.pickerBgView?.frame = frame
             }, completion: nil)
             
+            
+            
         default:
             break
+        }
+    }
+    
+    @objc func systemPickerValueChanged() {
+        if style == .systemDatePicker {
+            dateInfo?.date = LWDateFormatter.dateFormatter.string(from: picker!.date)
+        } else if style == .everyThirtyIn24Hours {
+            dateInfo?.time = LWDateFormatter.timeFormatter.string(from: picker!.date)
         }
     }
     
@@ -329,6 +428,13 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         switch style {
         case .timePicker:
             return LWAlert.timeDataSource.count
+            
+        case .datePicker:
+            return 1
+            
+        case .customPicker:
+            return customData!.count
+            
         default:
             return 1
         }
@@ -338,9 +444,16 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         switch style {
         case .timePicker:
             return LWAlert.timeDataSource[component].count
-        default:
+            
+        case .datePicker:
             let components = Calendar.current.dateComponents([.day], from: LWAlert.startDate, to: LWAlert.endDate)
             return components.day!
+            
+        case .customPicker:
+            return customData![component].count
+            
+        default:
+            return 0
         }
         
     }
@@ -349,9 +462,16 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         switch style {
         case .timePicker:
             return LWAlert.timeDataSource[component][row]
-        default:
+            
+        case .datePicker:
             let date = LWAlert.startDate.addingTimeInterval(TimeInterval(3600 * 24 * row))
             return date.dateInfo().date
+            
+        case .customPicker:
+            return customData![component][row]
+            
+        default:
+            return nil
         }
         
     }
@@ -363,9 +483,19 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
             hour += (pickerView.selectedRow(inComponent: 1) + 1)
             let minute = pickerView.selectedRow(inComponent: 2)
             dateInfo?.time = String(format:"%d:%02d", hour, minute)
-        default:
+            
+        case .datePicker:
             let date = LWAlert.startDate.addingTimeInterval(TimeInterval(3600 * 24 * row))
             dateInfo = date.dateInfo()
+            
+        case .customPicker:
+            var stringArray = [String]()
+            for index in 0..<customData!.count {
+                stringArray.append(customData![index][pickerView.selectedRow(inComponent: index)])
+            }
+            customPickerString = stringArray.joined(separator: "-")
+        default:
+            break
         }
         
     }
@@ -377,6 +507,11 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         if dateInfoBlock != nil {
             let info = self.dateInfo
             dateInfoBlock!(info!)
+        }
+        
+        if customPickerBlock != nil {
+            let string = self.customPickerString
+            customPickerBlock!(string!)
         }
     }
     
@@ -407,6 +542,12 @@ extension UIView {
 }
 
 extension Date {
+    func systemDateInfo() -> LWDateInfo {
+        return (LWDateFormatter.dateFormatter.string(from: self), "")
+    }
+    func everyThirtyIn24HoursDateInfo() -> LWDateInfo {
+        return ("", LWDateFormatter.timeFormatter.string(from: self))
+    }
     func dateInfo() -> LWDateInfo{
         let components = Calendar.current.dateComponents([.year, .month, .day, .weekday, .hour, .minute], from: self)
         
