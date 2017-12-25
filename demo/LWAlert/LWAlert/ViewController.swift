@@ -60,12 +60,12 @@ class ViewController: UIViewController {
                 print(str)
             }
         }else{////custom Picker with 2 components
+//            alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"], ["O", "T", "F"]], defaultStrings: ["NotExsit", "T"])
             alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"], ["O", "T", "F"]])
             alert.customPickerBlock = { str in
                 print(str)
             }
         }
-        
         alert.show()
     }
     override func didReceiveMemoryWarning() {

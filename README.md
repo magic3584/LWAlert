@@ -6,7 +6,7 @@
 * hud
 * alert
 * picker
-* custom components
+* custom components with specified row
 
 # Requirements
 * Xcode 9.0+
@@ -71,6 +71,7 @@
                 print(str)
             }
         }else{////custom Picker with 2 components
+//            alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"], ["O", "T", "F"]], defaultStrings: ["NotExsit", "T"])
             alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"], ["O", "T", "F"]])
             alert.customPickerBlock = { str in
                 print(str)

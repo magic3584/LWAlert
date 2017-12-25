@@ -96,7 +96,6 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     var picker: UIDatePicker?
     
     var customData: [[String]]?
-    
     //space between labels
     let space:CGFloat = 20
     //label margin
@@ -145,6 +144,8 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     //MARK: - Init
+    
+    ///Init with style: hud, buttons
     public init(title: String?, message: String?, style: LWAlertStyle) {
         super.init(frame: UIScreen.main.bounds)
         
@@ -197,6 +198,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         realView.center = center
     }
     
+    ///Init with style: picker
     public init(style: LWAlertStyle) {
         super.init(frame: UIScreen.main.bounds)
         
@@ -211,6 +213,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         
         let buttonView = UIView.init(frame: CGRect(x: 0, y: 0, width: viewWidth, height: buttonHeight))
         let cancelButton = UIButton.init(type: .custom)
+        cancelButton.tag = 0
         cancelButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
         cancelButton.setTitle("取消", for: .normal)
         cancelButton.setTitleColor(UIColor.lightGray, for: .normal)
@@ -218,6 +221,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         buttonView.addSubview(cancelButton)
         
         let confirmButton = UIButton.init(type: .custom)
+        confirmButton.tag = 1
         confirmButton.frame = CGRect(x: viewWidth - buttonWidth, y: 0, width: buttonWidth, height: buttonHeight)
         confirmButton.setTitle("确定", for: .normal)
         confirmButton.setTitleColor(UIColor.green, for: .normal)
@@ -285,8 +289,8 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         addSubview(pickerBgView!)
     }
     
-    
-    public init(customData: [[String]]) {
+    ///Init with style custom picker, can be set with dafaultStrings
+    public init(customData: [[String]], defaultStrings: [String]? = nil) {
         super.init(frame: UIScreen.main.bounds)
         
         self.style = .customPicker
@@ -302,6 +306,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         
         let buttonView = UIView.init(frame: CGRect(x: 0, y: 0, width: viewWidth, height: buttonHeight))
         let cancelButton = UIButton.init(type: .custom)
+        cancelButton.tag = 0
         cancelButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
         cancelButton.setTitle("取消", for: .normal)
         cancelButton.setTitleColor(UIColor.lightGray, for: .normal)
@@ -309,6 +314,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         buttonView.addSubview(cancelButton)
         
         let confirmButton = UIButton.init(type: .custom)
+        confirmButton.tag = 1
         confirmButton.frame = CGRect(x: viewWidth - buttonWidth, y: 0, width: buttonWidth, height: buttonHeight)
         confirmButton.setTitle("确定", for: .normal)
         confirmButton.setTitleColor(UIColor.green, for: .normal)
@@ -322,10 +328,18 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         
         pickerView?.selectRow(0, inComponent: 0, animated: false)
         
-        
         var stringArray = [String]()
-        for strings in customData {
-            stringArray.append(strings[0])
+        for (components,strings) in customData.enumerated() {
+            var row = 0
+            
+            if defaultStrings != nil {
+                assert(defaultStrings!.count == customData.count, "DefaultStrings's count must equal to customData's count")
+                if let defaultIndex = strings.index(of: defaultStrings![components]) {
+                   row = defaultIndex
+                }
+            }
+            pickerView?.selectRow(row, inComponent: components, animated: false)
+            stringArray.append(strings[row])
         }
         customPickerString = stringArray.joined(separator: "-")
         
@@ -504,14 +518,16 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     //MARK: - Private func
     @objc fileprivate func pickerButtonAction(button: UIButton) {
         dismiss()
-        if dateInfoBlock != nil {
-            let info = self.dateInfo
-            dateInfoBlock!(info!)
-        }
-        
-        if customPickerBlock != nil {
-            let string = self.customPickerString
-            customPickerBlock!(string!)
+        if button.tag == 1 {//confirm
+            if dateInfoBlock != nil {
+                let info = self.dateInfo
+                dateInfoBlock!(info!)
+            }
+            
+            if customPickerBlock != nil {
+                let string = self.customPickerString
+                customPickerBlock!(string!)
+            }
         }
     }
     
