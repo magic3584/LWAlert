@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LWAlert/LWAlert/LWAlert.swift"
-            timestampString = "535874745.002386"
+            timestampString = "535884108.275204"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "342"
@@ -26,11 +26,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LWAlert/LWAlert/LWAlert.swift"
-            timestampString = "535874745.002451"
+            timestampString = "535884108.275286"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "518"
             endingLineNumber = "518"
+            landmarkName = "LWAlert"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LWAlert/LWAlert/LWAlert.swift"
+            timestampString = "535884108.275347"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
             landmarkName = "pickerButtonAction(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LWAlert/LWAlert/LWAlert.swift"
-            timestampString = "535874745.002501"
+            timestampString = "535884108.275418"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
-            landmarkName = "pickerButtonAction(button:)"
+            startingLineNumber = "566"
+            endingLineNumber = "566"
+            landmarkName = "everyThirtyIn24HoursDateInfo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

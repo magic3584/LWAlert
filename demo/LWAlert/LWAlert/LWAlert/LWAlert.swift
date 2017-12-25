@@ -433,7 +433,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         if style == .systemDatePicker {
             dateInfo?.date = LWDateFormatter.dateFormatter.string(from: picker!.date)
         } else if style == .everyThirtyIn24Hours {
-            dateInfo?.time = LWDateFormatter.timeFormatter.string(from: picker!.date)
+            dateInfo?.time = picker!.date.everyThirtyIn24HoursDateInfo().time
         }
     }
     
@@ -562,7 +562,15 @@ extension Date {
         return (LWDateFormatter.dateFormatter.string(from: self), "")
     }
     func everyThirtyIn24HoursDateInfo() -> LWDateInfo {
-        return ("", LWDateFormatter.timeFormatter.string(from: self))
+        let components = LWDateFormatter.timeFormatter.string(from: self).components(separatedBy: ":")
+        var minute = Int(components[1])!
+        if minute < 30 {
+            minute = 0
+        } else {
+            minute = 30
+        }
+        
+        return ("", String(format:"%@:%02d",components[0], minute))
     }
     func dateInfo() -> LWDateInfo{
         let components = Calendar.current.dateComponents([.year, .month, .day, .weekday, .hour, .minute], from: self)
