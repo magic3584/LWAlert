@@ -37,22 +37,22 @@ class ViewController: UIViewController {
         } else if sender.tag == 2 {//datePicker
             alert = LWAlert.init(style: .datePicker)
             alert.dateInfoBlock = { info in
-                print(info.date)
+                print(info)
             }
         } else if sender.tag == 3 {//timePicker
             alert = LWAlert.init(style: .timePicker)
             alert.dateInfoBlock = { info in
-                print(info.time)
+                print(info)
             }
         }else if sender.tag == 4 {//systemDatePicker
             alert = LWAlert.init(style: .systemDatePicker)
             alert.dateInfoBlock = { info in
-                print(info.date)
+                print(info)
             }
         }else if sender.tag == 5{//everyThirtyIn24Hours
             alert = LWAlert.init(style: .everyThirtyIn24Hours)
             alert.dateInfoBlock = { info in
-                print(info.time)
+                print(info)
             }
         }else if sender.tag == 6{//custom Picker with 1 component
             alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"]])

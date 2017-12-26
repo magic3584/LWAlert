@@ -19,7 +19,8 @@ public enum LWAlertStyle {
     case customPicker
 }
 
-public typealias LWDateInfo = (date: String?, time: String?)
+//2010-01-01  10:00 星期二 2010年1月1日
+public typealias LWDateInfo = (date: String?, time: String?, week: String?, cnDate: String?)
 
 class LWDateFormatter {
     static let dateFormatter: DateFormatter = {
@@ -27,6 +28,12 @@ class LWDateFormatter {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
+    static let cnDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年MM月dd日"
+        return formatter
+    }()
+    
     static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
@@ -123,7 +130,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         
         return array
     }
-    
+    ///Get date, weekday,cnDate when using datePicker, get time only when using timePicker
     public var dateInfo: LWDateInfo?
     public var dateInfoBlock: ((LWDateInfo) ->())?
     
@@ -431,9 +438,9 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @objc func systemPickerValueChanged() {
         if style == .systemDatePicker {
-            dateInfo?.date = LWDateFormatter.dateFormatter.string(from: picker!.date)
+            dateInfo? = picker!.date.systemDateInfo()
         } else if style == .everyThirtyIn24Hours {
-            dateInfo?.time = picker!.date.everyThirtyIn24HoursDateInfo().time
+            dateInfo = picker!.date.everyThirtyIn24HoursDateInfo()
         }
     }
     
@@ -559,8 +566,22 @@ extension UIView {
 
 extension Date {
     func systemDateInfo() -> LWDateInfo {
-        return (LWDateFormatter.dateFormatter.string(from: self), "")
+        let components = Calendar.current.dateComponents([.year, .month, .day, .weekday, .hour, .minute], from: self)
+        
+        var weekday: String
+        switch components.weekday! {
+        case 1: weekday = "星期日"
+        case 2: weekday = "星期一"
+        case 3: weekday = "星期二"
+        case 4: weekday = "星期三"
+        case 5: weekday = "星期四"
+        case 6: weekday = "星期五"
+        case 7: weekday = "星期六"
+        default: weekday = ""
+        }
+        return (LWDateFormatter.dateFormatter.string(from: self), "", weekday, LWDateFormatter.cnDateFormatter.string(from: self))
     }
+    
     func everyThirtyIn24HoursDateInfo() -> LWDateInfo {
         let components = LWDateFormatter.timeFormatter.string(from: self).components(separatedBy: ":")
         var minute = Int(components[1])!
@@ -570,7 +591,7 @@ extension Date {
             minute = 30
         }
         
-        return ("", String(format:"%@:%02d",components[0], minute))
+        return ("", String(format:"%@:%02d",components[0], minute), "", "")
     }
     func dateInfo() -> LWDateInfo{
         let components = Calendar.current.dateComponents([.year, .month, .day, .weekday, .hour, .minute], from: self)
@@ -589,7 +610,7 @@ extension Date {
         
         let date = String(format:"%d年%d月%d日 %@", components.year!, components.month!, components.day!, weekday)
         let time = String(format:"%d:%02d", components.hour!, components.minute!)
-        return (date, time)
+        return (date, time, weekday, LWDateFormatter.cnDateFormatter.string(from: self))
     }
 }
 extension UIColor {
