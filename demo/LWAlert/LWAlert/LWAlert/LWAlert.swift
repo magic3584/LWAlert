@@ -67,6 +67,7 @@ open class LWAlertButton: UIView {
         button.backgroundColor = UIColor.rgbColor(r: 241, g: 241, b: 241)
         button.setTitle(title, for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.addTarget(self, action: #selector(LWAlertButton.buttonAction), for: .touchUpInside)
         
         addSubview(button)
@@ -191,7 +192,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 0
             
-            label.font = UIFont.systemFont(ofSize: 11)
+            label.font = UIFont.systemFont(ofSize: 14)
             let size = label.sizeThatFits(CGSize(width: realView.frame.size.width - margin * 2, height: CGFloat.greatestFiniteMagnitude))
             label.frame = CGRect(x: margin, y: height, width: realView.frame.size.width - margin * 2, height: size.height)
             realView.addSubview(label)
