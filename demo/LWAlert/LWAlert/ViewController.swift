@@ -46,6 +46,7 @@ class ViewController: UIViewController {
             }
         }else if sender.tag == 4 {//systemDatePicker
             alert = LWAlert.init(style: .systemDatePicker)
+            alert.minDate = LWDateFormatter.dateFormatter.date(from: "2017-12-12")
             alert.dateInfoBlock = { info in
                 print(info.date)
             }

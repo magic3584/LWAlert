@@ -127,6 +127,29 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     public var dateInfo: LWDateInfo?
     public var dateInfoBlock: ((LWDateInfo) ->())?
     
+    ///When using systemDatePicker
+    public var minDate: Date? {
+        didSet {
+            if self.style == .systemDatePicker {
+                picker?.minimumDate = minDate
+                if Date() < minDate! {
+                    dateInfo = minDate!.systemDateInfo()
+                }
+            }
+        }
+    }
+    ///When using systemDatePicker
+    public var maxDate: Date? {
+        didSet {
+            if self.style == .systemDatePicker {
+                picker?.maximumDate = maxDate
+                if Date() > maxDate! {
+                    dateInfo = maxDate!.systemDateInfo()
+                }
+            }
+        }
+    }
+    
     ///joined by "-"
     public var customPickerString: String?
     public var customPickerBlock: ((String) ->())?
