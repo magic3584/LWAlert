@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     
     @IBAction func buttonAction(_ sender: UIButton) {
         
-        var alert: LWAlert
+        var alert: LWAlert!
         
         if sender.tag == 0 {//hud
 //            alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .hud)
@@ -61,11 +61,18 @@ class ViewController: UIViewController {
             alert.customPickerBlock = { str in
                 print(str)
             }
-        }else{////custom Picker with 2 components
+        }else if sender.tag == 7{////custom Picker with 2 components
 //            alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"], ["O", "T", "F"]], defaultStrings: ["NotExsit", "T"])
             alert = LWAlert.init(customData: [["One", "Two", "Three", "Four", "Five"], ["O", "T", "F"]])
             alert.customPickerBlock = { str in
                 print(str)
+            }
+        } else if sender.tag == 8 {//systemDateAndThirtyPicker
+            alert = LWAlert.init(style: .systemDateAndEveryThirtyPicker)
+            alert.minDate = LWDateFormatter.dateAndThirtyFormatter.date(from: "2016-12-12 08:05")
+            alert.maxDate = LWDateFormatter.dateAndThirtyFormatter.date(from: "2017-12-12 14:31")
+            alert.dateInfoBlock = { info in
+                print(info)
             }
         }
         alert.show()

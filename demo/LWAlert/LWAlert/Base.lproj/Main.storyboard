@@ -97,15 +97,24 @@
                                     <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="DzT-lS-Mwp"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjV-UM-s36">
+                                <rect key="frame" x="92" y="420" width="191" height="30"/>
+                                <state key="normal" title="systemDateAndThirtyPicker"/>
+                                <connections>
+                                    <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="6jP-5g-jTL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Wia-H1-y1i" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="0pw-np-2wr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RSS-dk-2ph" secondAttribute="trailing" constant="30" id="1r9-jb-Ab8"/>
                             <constraint firstItem="yAL-Dk-tk4" firstAttribute="centerX" secondItem="cAe-Dd-RkU" secondAttribute="centerX" id="2d2-Ew-ZVg"/>
+                            <constraint firstItem="bjV-UM-s36" firstAttribute="top" secondItem="Ypm-8h-58U" secondAttribute="bottom" constant="8" id="3zU-ms-6F1"/>
                             <constraint firstItem="c34-2h-fb8" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="6sT-1g-Y1n"/>
                             <constraint firstItem="RSS-dk-2ph" firstAttribute="top" secondItem="FPN-qT-vHt" secondAttribute="bottom" constant="18" id="7sG-hg-CgC"/>
                             <constraint firstItem="cAe-Dd-RkU" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="AOj-KG-Rlc"/>
+                            <constraint firstItem="bjV-UM-s36" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="Ekh-EC-8ZQ"/>
                             <constraint firstItem="FPN-qT-vHt" firstAttribute="centerX" secondItem="fKv-eu-iBe" secondAttribute="centerX" id="Eob-Tg-1hh"/>
                             <constraint firstItem="c34-2h-fb8" firstAttribute="top" secondItem="mFU-EZ-qOU" secondAttribute="bottom" constant="20" id="I6z-Ow-Iq0"/>
                             <constraint firstItem="cAe-Dd-RkU" firstAttribute="top" secondItem="Wia-H1-y1i" secondAttribute="bottom" constant="20" id="KZ6-8n-YJq"/>
@@ -122,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E9A-qn-TQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="863" y="-287"/>
+            <point key="canvasLocation" x="861.60000000000002" y="-287.40629685157421"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="L4a-Ln-Qoq">
