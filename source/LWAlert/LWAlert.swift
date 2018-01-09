@@ -15,7 +15,7 @@ public enum LWAlertStyle {
     case datePicker
     case timePicker
     case systemDatePicker
-    case systemDateAndEveryThirtyPicker//年月日，时间半个小时
+    case systemDateAndQuarterPicker//年月日，时间15分钟间隔
     case everyThirtyIn24Hours//0:00 0:30 1:00 1:30
     case customPicker
 }
@@ -151,10 +151,10 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
                 if Date() < minDate! {
                     dateInfo = minDate!.systemDateInfo()
                 }
-            } else if style == .systemDateAndEveryThirtyPicker {
+            } else if style == .systemDateAndQuarterPicker {
                 picker?.minimumDate = minDate
                 if Date() < minDate! {
-                    dateInfo = minDate!.systemDateAndEveryThirtyInfo()
+                    dateInfo = minDate!.systemDateAndQuarterInfo()
                 }
             }
         }
@@ -166,10 +166,10 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
                 if Date() > maxDate! {
                     dateInfo = maxDate!.systemDateInfo()
                 }
-            } else if style == .systemDateAndEveryThirtyPicker {
+            } else if style == .systemDateAndQuarterPicker {
                 picker?.maximumDate = maxDate
                 if Date() > maxDate! {
-                    dateInfo = maxDate!.systemDateAndEveryThirtyInfo()
+                    dateInfo = maxDate!.systemDateAndQuarterInfo()
                 }
             }
         }
@@ -281,7 +281,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         dateInfo = Date().dateInfo()
         
         switch style {
-        case .systemDatePicker, .everyThirtyIn24Hours, .systemDateAndEveryThirtyPicker:
+        case .systemDatePicker, .everyThirtyIn24Hours, .systemDateAndQuarterPicker:
             picker = UIDatePicker.init(frame: CGRect(x: 0, y: buttonHeight, width: viewWidth, height: pickerHeight))
             switch style {
             case .systemDatePicker:
@@ -293,10 +293,10 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
                 picker?.minuteInterval = 30
                 dateInfo = Date().everyThirtyIn24HoursDateInfo()
             
-            case .systemDateAndEveryThirtyPicker:
+            case .systemDateAndQuarterPicker:
                 picker?.datePickerMode = .dateAndTime
-                picker?.minuteInterval = 30
-                dateInfo = Date().systemDateAndEveryThirtyInfo()
+                picker?.minuteInterval = 15
+                dateInfo = Date().systemDateAndQuarterInfo()
             default:
                 break
             }
@@ -465,7 +465,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
             realView.frame.size.height += buttonHeight
             realView.center = center
         
-        case .datePicker, .timePicker, .systemDatePicker, .everyThirtyIn24Hours, .customPicker, .systemDateAndEveryThirtyPicker:
+        case .datePicker, .timePicker, .systemDatePicker, .everyThirtyIn24Hours, .customPicker, .systemDateAndQuarterPicker:
             var frame = pickerBgView!.frame
             frame.origin.y = self.viewHeight - self.buttonHeight - self.pickerHeight
 
@@ -486,8 +486,8 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
             dateInfo = picker!.date.systemDateInfo()
         } else if style == .everyThirtyIn24Hours {
             dateInfo = picker!.date.everyThirtyIn24HoursDateInfo()
-        } else if style == .systemDateAndEveryThirtyPicker {
-            dateInfo = picker!.date.systemDateAndEveryThirtyInfo()
+        } else if style == .systemDateAndQuarterPicker {
+            dateInfo = picker!.date.systemDateAndQuarterInfo()
         }
     }
     
@@ -629,7 +629,7 @@ extension Date {
         return (LWDateFormatter.dateFormatter.string(from: self), "", weekday, LWDateFormatter.cnDateFormatter.string(from: self))
     }
     
-    func systemDateAndEveryThirtyInfo() -> LWDateInfo {
+    func systemDateAndQuarterInfo() -> LWDateInfo {
         let components = Calendar.current.dateComponents([.year, .month, .day, .weekday, .hour, .minute], from: self)
         
         var weekday: String
@@ -643,7 +643,22 @@ extension Date {
         case 7: weekday = "星期六"
         default: weekday = ""
         }
-        return (LWDateFormatter.dateFormatter.string(from: self), String(format:"%d:%02d", components.hour!, components.minute! < 30 ? 0 : 30), weekday, LWDateFormatter.cnDateFormatter.string(from: self))
+        
+        var minute = 0
+        switch components.minute! {
+        case 0...14:
+            minute = 0
+        case 15...29:
+            minute = 15
+        case 30...44:
+            minute = 30
+        case 45...59:
+            minute = 45
+        default:
+            break
+        }
+        
+        return (LWDateFormatter.dateFormatter.string(from: self), String(format:"%d:%02d", components.hour!, minute), weekday, LWDateFormatter.cnDateFormatter.string(from: self))
     }
     
     func everyThirtyIn24HoursDateInfo() -> LWDateInfo {

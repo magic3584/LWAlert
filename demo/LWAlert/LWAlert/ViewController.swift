@@ -67,8 +67,8 @@ class ViewController: UIViewController {
             alert.customPickerBlock = { str in
                 print(str)
             }
-        } else if sender.tag == 8 {//systemDateAndThirtyPicker
-            alert = LWAlert.init(style: .systemDateAndEveryThirtyPicker)
+        } else if sender.tag == 8 {//systemDateAndQuarterPicker
+            alert = LWAlert.init(style: .systemDateAndQuarterPicker)
             alert.minDate = LWDateFormatter.dateAndThirtyFormatter.date(from: "2016-12-12 08:05")
             alert.maxDate = LWDateFormatter.dateAndThirtyFormatter.date(from: "2017-12-12 14:31")
             alert.dateInfoBlock = { info in
