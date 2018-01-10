@@ -23,31 +23,31 @@ public enum LWAlertStyle {
 //2010-01-01  10:00 星期二 2010年1月1日
 public typealias LWDateInfo = (date: String?, time: String?, week: String?, cnDate: String?)
 
-class LWDateFormatter {
-    static let dateFormatter: DateFormatter = {
+open class LWDateFormatter {
+    open static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-    static let cnDateFormatter: DateFormatter = {
+    open static let cnDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日"
         return formatter
     }()
     
-    static let timeFormatter: DateFormatter = {
+    open static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
-    static let dateAndIntervalFormatter: DateFormatter = {
+    open static let dateAndIntervalFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         return formatter
     }()
     
-    class func is12HoursFormat() -> Bool {
+    public class func is12HoursFormat() -> Bool {
         let dateString : String = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: Locale.current)!
         
         if(dateString.contains("a")){
@@ -613,7 +613,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     //MARK: - Public func
     ///Only using when systemDateAndIntervalPicker
-    func setPickerTimeInterval(interval: NSInteger, defaultTime: String) {
+    public func setPickerTimeInterval(interval: NSInteger, defaultTime: String) {
         assert(style == .systemDateAndIntervalPicker, "Only using when systemDateAndIntervalPicker")
         
         guard (interval >= 1) && (interval <= 30) && (60%interval == 0) else {
