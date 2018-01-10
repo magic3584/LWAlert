@@ -26,7 +26,7 @@ class ViewController: UIViewController {
             
         } else if sender.tag == 1{
             alert = LWAlert.init(title: "this is title", message: "this is message this is message this is message this is message this is message this is message this is message this is message ", style: .alert)
-            
+//            alert.isLetDismissWhenAlert = true
             alert.addButton(LWAlertButton.init(title: "Cancel", handler: nil))
             alert.addButton(LWAlertButton.init(title: "Confirm", handler: { ( button ) in
                 print("confirm")
@@ -67,10 +67,11 @@ class ViewController: UIViewController {
             alert.customPickerBlock = { str in
                 print(str)
             }
-        } else if sender.tag == 8 {//systemDateAndQuarterPicker
-            alert = LWAlert.init(style: .systemDateAndQuarterPicker)
-            alert.minDate = LWDateFormatter.dateAndThirtyFormatter.date(from: "2016-12-12 08:05")
-            alert.maxDate = LWDateFormatter.dateAndThirtyFormatter.date(from: "2017-12-12 14:31")
+        } else if sender.tag == 8 {//systemDateAndIntervalPicker
+            alert = LWAlert.init(style: .systemDateAndIntervalPicker)
+            alert.minDate = LWDateFormatter.dateAndIntervalFormatter.date(from: "2016-12-12 08:05")
+//            alert.maxDate = LWDateFormatter.dateAndIntervalFormatter.date(from: "2017-12-12 14:31")
+//            alert.setPickerTimeInterval(interval: 10, defaultTime: "2012-12-12 1:20")
             alert.dateInfoBlock = { info in
                 print(info)
             }

@@ -98,8 +98,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjV-UM-s36">
-                                <rect key="frame" x="85.5" y="420" width="204" height="30"/>
-                                <state key="normal" title="systemDateAndQuarterPicker"/>
+                                <rect key="frame" x="87" y="420" width="201" height="30"/>
+                                <state key="normal" title="systemDateAndIntervalPicker"/>
                                 <connections>
                                     <action selector="buttonAction:" destination="55C-NW-zQX" eventType="touchUpInside" id="6jP-5g-jTL"/>
                                 </connections>
