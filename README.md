@@ -10,7 +10,10 @@
 
 # Requirements
 * Xcode 9.0+
-* Swift 4.0+
+
+* Swift 4.2+
+
+  > Swift 4.0 use tag 0.1.1 but with a retain cycle problem.
 
 # Installation
 ## CocoaPods
@@ -42,7 +45,7 @@
             alert.addButton(LWAlertButton.init(title: "Confirm", handler: { ( button ) in
                 print("confirm")
                 
-                //Don't use alert or it will cause a retain cycle
+                //Don't worry about retain cycle
                 //print(alert.buttons.count)
             }))
         } else if sender.tag == 2 {//datePicker

@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "LWAlert"
-  s.version      = "0.2.1"
+  s.version      = "0.2.2"
   s.summary      = "LWAlert"
 
   # This description is used to generate tags and improve search results.
