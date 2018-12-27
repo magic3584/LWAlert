@@ -31,8 +31,8 @@ class ViewController: UIViewController {
             alert.addButton(LWAlertButton.init(title: "Confirm", handler: { ( button ) in
                 print("confirm")
                 
-                //Don't use alert or it will cause a retain cycle
-                //print(alert.buttons.count)
+                //Don't worry about retain cycle
+                print(alert.buttons.count)
             }))
         } else if sender.tag == 2 {//datePicker
             alert = LWAlert.init(style: .datePicker)

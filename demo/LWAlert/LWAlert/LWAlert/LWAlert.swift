@@ -78,8 +78,8 @@ open class LWAlertButton: UIView {
     }
     
     @objc private func buttonAction() {
-        alert.dismiss()
         handler?(self)
+        alert.dismiss()
     }
 }
 
@@ -390,7 +390,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     public func show() {
         UIApplication.shared.keyWindow?.addSubview(self)
 
-        switch style{
+        switch style!{
         case .hud:
             UIView.animate(withDuration: 0.3, animations: {
                 self.bgView.backgroundColor = self.bgColor
@@ -462,7 +462,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     //MARK: - UIPickerView
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        switch style {
+        switch style! {
         case .timePicker:
             return LWAlert.timeDataSource.count
             
@@ -478,7 +478,8 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch style {
+    
+        switch style! {
         case .timePicker:
             return LWAlert.timeDataSource[component].count
             
@@ -496,7 +497,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch style {
+        switch style! {
         case .timePicker:
             return LWAlert.timeDataSource[component][row]
             
@@ -513,7 +514,7 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         
     }
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch style {
+        switch style! {
         case .timePicker:
             var hour = 0
             if pickerView.selectedRow(inComponent: 0) != 0 { hour += 12}
@@ -556,6 +557,9 @@ open class LWAlert: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     
     fileprivate func dismiss() {
+        for button in buttons {
+            button.handler = nil
+        }
         self.removeFromSuperview()
     }
 }
